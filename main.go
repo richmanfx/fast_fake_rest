@@ -19,12 +19,14 @@ func main() {
 		configFileName = "config.yaml"
 	)
 
-	// Set logging parameters
-	SetLog(log.DebugLevel)
-
 	// Full configuration file name
 	fullConfigFileName := configDirName + "/" + configFileName
 	log.Debugf("Full config file name: %s", fullConfigFileName)
+
+	// Read parameters from config file
+
+	// Set logging parameters
+	SetLog(log.DebugLevel) // TODO: Уровень брать из конфига
 }
 
 /* Set logging parameters */

@@ -1,3 +1,20 @@
 # Configuration file for fast_fake_rest program
 # File name: config.yaml
 # Location: /usr/local/etc/fast_fake_rest
+###############################################
+
+# Allow logging to console
+ConsoleLogging:
+  true
+
+# Allow logging to file
+FileLogging:
+  false
+
+# Log files path
+LogFilesPath:
+  /var/log/fast_fake_rest
+
+# Debug level
+DebugLevel:
+  DEBUG
