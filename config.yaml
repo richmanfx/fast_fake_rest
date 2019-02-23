@@ -4,17 +4,18 @@
 ###############################################
 
 # Allow logging to console
-ConsoleLogging:
-  true
+ConsoleLogging: true
 
 # Allow logging to file
-FileLogging:
-  false
+FileLogging: false
 
 # Log files path
-LogFilesPath:
-  /var/log/fast_fake_rest
+LogFilesPath: /var/log/fast_fake_rest
 
 # Debug level
-DebugLevel:
-  DEBUG
+DebugLevel: DEBUG
+
+# REST
+REST:
+  EndPoint: /v1/endpoint1
+  Кesponse: {response1: "1234567"}

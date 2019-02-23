@@ -8,9 +8,20 @@
 package main
 
 import (
-	log "github.com/Sirupsen/logrus"
+	"github.com/Sirupsen/logrus"
 	"os"
 )
+
+/* Config parameters */
+type conf struct {
+	DebugLevel     string `yaml:"DebugLevel"`
+	ConsoleLogging bool   `yaml:"ConsoleLogging"`
+	FileLogging    bool   `yaml:"FileLogging"`
+	LogFilesPath   string `yaml:"LogFilesPath"`
+}
+
+var consoleLog = logrus.New()
+var fileLog = logrus.New()
 
 func main() {
 
@@ -19,22 +30,54 @@ func main() {
 		configFileName = "config.yaml"
 	)
 
+	var (
+		config conf
+	)
+
 	// Full configuration file name
 	fullConfigFileName := configDirName + "/" + configFileName
-	log.Debugf("Full config file name: %s", fullConfigFileName)
+	//log.Debugf("Full config file name: %s", fullConfigFileName)
 
 	// Read parameters from config file
+	config.GetConfigParameters(fullConfigFileName)
 
 	// Set logging parameters
-	SetLog(log.DebugLevel) // TODO: Уровень брать из конфига
+	SetLog(config)
+
+	consoleLog.Infof("Config: %v", config)
+	fileLog.Infof("Config: %v", config)
 }
 
 /* Set logging parameters */
-func SetLog(debugLevel log.Level) {
-	log.SetOutput(os.Stdout)
-	customFormatter := new(log.TextFormatter)
-	customFormatter.TimestampFormat = "2006/01/02 15:04:05"
-	log.SetFormatter(customFormatter)
-	customFormatter.FullTimestamp = true
-	log.SetLevel(debugLevel)
+func SetLog(config conf) {
+
+	// Console logging
+	consoleLog.Formatter = &logrus.TextFormatter{
+		FullTimestamp:    false,
+		QuoteEmptyFields: true,
+		TimestampFormat:  "2006/01/02 15:04:05"}
+	if config.ConsoleLogging == true {
+		consoleLog.SetOutput(os.Stdout)
+		level, _ := logrus.ParseLevel(config.DebugLevel)
+		consoleLog.Level = level
+	} else {
+		// For silent mode
+		level, _ := logrus.ParseLevel("PanicLevel")
+		consoleLog.Level = logrus.Level(level)
+	}
+
+	// File logging
+	if config.FileLogging == true {
+		fileLog.Formatter = consoleLog.Formatter
+		fullLogFileName := config.LogFilesPath + "/" + "rest.log"
+		file, err := os.OpenFile(fullLogFileName, os.O_APPEND|os.O_WRONLY, 0666)
+		if err == nil {
+			fileLog.SetOutput(file)
+			level, _ := logrus.ParseLevel(config.DebugLevel)
+			fileLog.SetLevel(level)
+		} else {
+			fileLog.Errorf("Failed to log to file '%s', using default stderr", fullLogFileName)
+		}
+	}
+
 }
