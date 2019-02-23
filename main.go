@@ -10,6 +10,7 @@ package main
 import (
 	"github.com/Sirupsen/logrus"
 	"os"
+	"time"
 )
 
 /* Config parameters */
@@ -69,8 +70,8 @@ func SetLog(config conf) {
 	// File logging
 	if config.FileLogging == true {
 		fileLog.Formatter = consoleLog.Formatter
-		fullLogFileName := config.LogFilesPath + "/" + "rest.log"
-		file, err := os.OpenFile(fullLogFileName, os.O_APPEND|os.O_WRONLY, 0666)
+		fullLogFileName := config.LogFilesPath + "/" + "rest-" + time.Now().Format("20060102") + ".log"
+		file, err := os.OpenFile(fullLogFileName, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 		if err == nil {
 			fileLog.SetOutput(file)
 			level, _ := logrus.ParseLevel(config.DebugLevel)
