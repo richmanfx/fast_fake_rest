@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 )
 
-func (config *conf) GetConfigParameters(fullConfigFileName string) *conf {
+func (config *Conf) GetConfigParameters(fullConfigFileName string) *Conf {
 
 	yamlFile, err := ioutil.ReadFile(fullConfigFileName)
 	if err != nil {

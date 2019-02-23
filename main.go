@@ -14,11 +14,15 @@ import (
 )
 
 /* Config parameters */
-type conf struct {
-	DebugLevel     string `yaml:"DebugLevel"`
-	ConsoleLogging bool   `yaml:"ConsoleLogging"`
-	FileLogging    bool   `yaml:"FileLogging"`
-	LogFilesPath   string `yaml:"LogFilesPath"`
+type Conf struct {
+	DebugLevel     string     `yaml:"DebugLevel"`
+	ConsoleLogging bool       `yaml:"ConsoleLogging"`
+	FileLogging    bool       `yaml:"FileLogging"`
+	LogFilesPath   string     `yaml:"LogFilesPath"`
+	Rest           []struct { // `yaml:"rest"`
+		EndPoint string `yaml:"EndPoint"`
+		Response string `yaml:"Response"`
+	}
 }
 
 var consoleLog = logrus.New()
@@ -32,7 +36,7 @@ func main() {
 	)
 
 	var (
-		config conf
+		config Conf
 	)
 
 	// Full configuration file name
@@ -50,7 +54,7 @@ func main() {
 }
 
 /* Set logging parameters */
-func SetLog(config conf) {
+func SetLog(config Conf) {
 
 	// Console logging
 	consoleLog.Formatter = &logrus.TextFormatter{

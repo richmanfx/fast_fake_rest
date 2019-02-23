@@ -3,19 +3,26 @@
 # Location: /usr/local/etc/fast_fake_rest
 ###############################################
 
+# Debug level
+DebugLevel: debug
+
 # Allow logging to console
 ConsoleLogging: true
 
 # Allow logging to file
-FileLogging: false
+FileLogging: true
 
 # Log files path
 LogFilesPath: /var/log/fast_fake_rest
 
-# Debug level
-DebugLevel: DEBUG
-
 # REST
-REST:
-  EndPoint: /v1/endpoint1
-  Кesponse: {response1: "1234567"}
+rest:
+  - EndPoint: /v1/endpoint1
+    Response: '{response1: "1111111"}'
+
+  - EndPoint: /v1/endpoint2
+    Response: '{response2: "2222222"}'
+
+  - EndPoint: /v1/endpoint3
+    Response: '{response3: "3333333"}'
+
