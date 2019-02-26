@@ -9,6 +9,8 @@ package main
 
 import (
 	"github.com/Sirupsen/logrus"
+	"github.com/gorilla/mux"
+	"net/http"
 	"os"
 	"time"
 )
@@ -49,8 +51,26 @@ func main() {
 	// Set logging parameters
 	SetLog(config)
 
-	consoleLog.Infof("Config: %v", config)
-	fileLog.Infof("Config: %v", config)
+	// Для дебага
+	//consoleLog.Infof("Config: %v", config)
+	//fileLog.Infof("Config: %v", config)
+
+	// Adding RESTs from config
+	for index := 0; index < len(config.Rest); index++ {
+		rests = append(rests, Rest{EndPoint: config.Rest[index].EndPoint, Response: config.Rest[index].Response})
+	}
+
+	// Adding RESTs from code
+	rests = append(rests, Rest{EndPoint: "/v1/endpoint777", Response: "{response777: \"7777777\"}"})
+
+	// Running
+	router := mux.NewRouter()
+	router.HandleFunc("/", getRestsList).Methods("GET")
+	err := http.ListenAndServe(":8083", router)
+	if err != nil {
+		consoleLog.Fatal("Error listen on the TCP network address")
+	}
+
 }
 
 /* Set logging parameters */
