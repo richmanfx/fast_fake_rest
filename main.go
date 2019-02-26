@@ -9,7 +9,7 @@ package main
 
 import (
 	"github.com/Sirupsen/logrus"
-	"github.com/gorilla/mux"
+	"github.com/kataras/muxie"
 	"net/http"
 	"os"
 	"time"
@@ -64,8 +64,12 @@ func main() {
 	rests = append(rests, Rest{EndPoint: "/v1/endpoint777", Response: "{response777: \"7777777\"}"})
 
 	// Running
-	router := mux.NewRouter()
-	router.HandleFunc("/", getRestsList).Methods("GET")
+	//router := mux.NewRouter()
+	router := muxie.NewMux()
+
+	//router.HandleFunc("/", getRestsList).Methods("GET")
+	router.HandleFunc("/", getRestsList)
+
 	err := http.ListenAndServe(":8083", router)
 	if err != nil {
 		consoleLog.Fatal("Error listen on the TCP network address")
