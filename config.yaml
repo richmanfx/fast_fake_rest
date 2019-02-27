@@ -3,6 +3,9 @@
 # Location: /usr/local/etc/fast_fake_rest
 ###############################################
 
+# TCP port
+TcpPort: 8083
+
 # Debug level
 DebugLevel: debug
 
@@ -25,4 +28,3 @@ rest:
 
   - EndPoint: /v1/endpoint3
     Response: '{response3: "3333333"}'
-

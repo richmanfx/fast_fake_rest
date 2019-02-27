@@ -17,6 +17,7 @@ import (
 
 /* Config parameters */
 type Conf struct {
+	TcpPort        string     `yaml:"TcpPort"`
 	DebugLevel     string     `yaml:"DebugLevel"`
 	ConsoleLogging bool       `yaml:"ConsoleLogging"`
 	FileLogging    bool       `yaml:"FileLogging"`
@@ -70,7 +71,7 @@ func main() {
 	//router.HandleFunc("/", getRestsList).Methods("GET")
 	router.HandleFunc("/", getRestsList)
 
-	err := http.ListenAndServe(":8083", router)
+	err := http.ListenAndServe(":"+config.TcpPort, router)
 	if err != nil {
 		consoleLog.Fatal("Error listen on the TCP network address")
 	}
