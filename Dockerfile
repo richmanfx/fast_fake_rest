@@ -6,6 +6,9 @@ WORKDIR /usr/local/sbin
 
 # Копировать в образ файлы приложения
 COPY fast_fake_rest .
+RUN mkdir -p /usr/local/etc/fast_fake_rest
+COPY config.yaml /usr/local/etc/fast_fake_rest/config.yaml
+RUN mkdir -p /var/log/fast_fake_rest
 
 # Открыть порт чтобы он был доступен снаружи контейнера
 EXPOSE 8083
