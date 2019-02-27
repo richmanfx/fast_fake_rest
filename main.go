@@ -67,10 +67,9 @@ func main() {
 	// Running
 	//router := mux.NewRouter()
 	router := muxie.NewMux()
-
 	//router.HandleFunc("/", getRestsList).Methods("GET")
-	router.HandleFunc("/", getRestsList)
 
+	router.HandleFunc("/", getRestsList)
 	err := http.ListenAndServe(":"+config.TcpPort, router)
 	if err != nil {
 		consoleLog.Fatal("Error listen on the TCP network address")

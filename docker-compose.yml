@@ -1,0 +1,9 @@
+version: "3"
+services:
+  fast_fake_rest:
+    image: zoer/fast_fake_rest
+    restart: always
+      
+    ports:
+      - "8083:8083"
+      
